@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agent Harness</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/xterm@5.3.0/css/xterm.min.css"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <div class="ambient ambient-left"></div>
+      <div class="ambient ambient-right"></div>
+
+      <header class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Live terminal collaboration</p>
+          <h1>Agent Harness</h1>
+          <p class="hero-text">
+            Spawn any allowed CLI agent, share it instantly, and hand off control live
+            without leaving the browser.
+          </p>
+        </div>
+
+        <div class="hero-panel">
+          <div class="panel-glow"></div>
+          <div class="panel-card">
+            <div class="panel-row">
+              <span class="panel-label">Session</span>
+              <span class="panel-value" id="session-label">Not connected</span>
+            </div>
+            <div class="panel-row">
+              <span class="panel-label">Mode</span>
+              <span class="panel-pill" id="role-pill">Viewer</span>
+            </div>
+            <div class="panel-row">
+              <span class="panel-label">Presence</span>
+              <span class="panel-value" id="presence-count">0 live</span>
+            </div>
+            <div class="panel-row">
+              <span class="panel-label">Fork seed</span>
+              <span class="panel-value" id="seed-label">None</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main class="dashboard">
+        <section class="control-card">
+          <div class="section-heading">
+            <h2>Launch or join</h2>
+            <p>Start a safe demo command or jump into a shared session link.</p>
+          </div>
+
+          <form id="launch-form" class="launch-form">
+            <label class="field">
+              <span>Allowed command</span>
+              <select id="command-select" required></select>
+            </label>
+
+            <div class="field-grid">
+              <label class="field">
+                <span>Columns</span>
+                <input id="cols-input" type="number" min="40" max="220" value="120" />
+              </label>
+              <label class="field">
+                <span>Rows</span>
+                <input id="rows-input" type="number" min="12" max="80" value="32" />
+              </label>
+            </div>
+
+            <div class="action-row">
+              <button type="submit" class="primary-button">Create session</button>
+              <button type="button" class="ghost-button" id="copy-link-button">Copy link</button>
+            </div>
+          </form>
+
+          <div class="divider"></div>
+
+          <div class="handoff-grid">
+            <button type="button" class="secondary-button" id="request-control-button">
+              Request control
+            </button>
+            <button type="button" class="secondary-button" id="fork-session-button">
+              Fork session
+            </button>
+          </div>
+
+          <p id="status-message" class="status-message">
+            Waiting for a session to start.
+          </p>
+          <p id="helper-message" class="helper-message"></p>
+        </section>
+
+        <section class="terminal-card">
+          <div class="terminal-header">
+            <div>
+              <p class="terminal-kicker">Shared terminal</p>
+              <h2>Live PTY stream</h2>
+            </div>
+            <div class="presence-strip" id="presence-strip"></div>
+          </div>
+
+          <div class="terminal-frame">
+            <div id="terminal"></div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xterm@5.3.0/lib/xterm.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xterm-addon-fit@0.8.0/lib/xterm-addon-fit.min.js"></script>
+    <script src="/app.js"></script>
+  </body>
+  </html>
